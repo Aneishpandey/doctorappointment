@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mybutton {
+  padding: 10px 50px;
+  margin: 10px auto;
+  background: #03c4ff;
+  color: white !important;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s ease-in;
+}
+.mybutton:hover {
+  background-color: rgb(13, 22, 136);
+}

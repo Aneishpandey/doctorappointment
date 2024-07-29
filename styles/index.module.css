@@ -1,0 +1,39 @@
+.main {
+  position: relative;
+}
+.documentSection {
+  position: relative;
+}
+.button {
+  width: 343px;
+  background-color: #03c4ff;
+  padding: 12px 8px;
+  font-size: 1.2rem;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  color: #f0f8ff;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in;
+  align-content: center;
+  display: block;
+}
+.button:hover {
+  background-color: rgb(13, 22, 136);
+}
+.buttonSection {
+  margin-bottom: 200px;
+}
+@media only screen and (max-width: 720px) {
+  .main {
+    position: relative;
+    height: 818px;
+  }
+  .button {
+    margin: 23px 0 0 3%;
+    width: 343px;
+  }
+  .documentSection {
+    position: static;
+  }
+}

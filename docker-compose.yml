@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  doctorappoinment:
+    container_name: doctorappoinment
+    ports:
+      - '3000:3000'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+
+  database:
+    image: mongo:6.0
+    container_name: doctorappoinment_mongo
+    ports:
+      - '8000:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: drappoinment
+      MONGO_INITDB_ROOT_PASSWORD: password123
