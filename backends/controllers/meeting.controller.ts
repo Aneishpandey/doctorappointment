@@ -4,6 +4,11 @@ import { authService, AuthService } from "../services/auth.service";
 import { meetingService, MeetingService } from "../services/meeting.service";
 import { userService, UserService } from "../services/user.service";
 import { userType } from "../types/user.type";
+import { Resend } from 'resend';
+import { EmailTemplate } from "@/components/EmailTemplate";
+
+const resend = new Resend('re_AdFQ17yz_C62s5nFPKTL8gEu4STfNMdZE');
+
 const addMeetingValidation = Joi.object({
   doctor: Joi.string().required(),
   date: Joi.string().required(),
@@ -16,6 +21,7 @@ class MeetingController {
     private readonly userService: UserService
   ) { }
   addMeeting = async (req: NextApiRequest, res: NextApiResponse) => {
+    console.log("reached here")
     const { error, value } = await addMeetingValidation.validate(req.body);
     if (error) return res.status(400).json({ message: error.message });
     const payload = await this.authService.verifyToken(
@@ -69,6 +75,20 @@ class MeetingController {
       .catch((err) => {
         return res.status(400).json({ message: err });
       });
+
+    const {data,error:mailError} = await resend.emails.send({
+        from: 'Acme <onboarding@resend.dev>',
+        to: [user.email],
+        subject: 'Appointment Booking Successfull',
+        react: EmailTemplate({ fullName: user.fullName, email: user.email, type: 'user', date: value.date, time: value.time }),
+      });
+      await resend.emails.send({
+        from: 'Acme <onboarding@resend.dev>',
+        to: [doctor.email],
+        subject: 'Appointment Booked by Client',
+        react: EmailTemplate({ fullName: user.fullName, email: user.email, type: 'doctor', date: value.date, time: value.time }),
+      });
+     console.log(data, mailError);
     res.status(200).json({ ...meeting, payment_url });
   };
 
