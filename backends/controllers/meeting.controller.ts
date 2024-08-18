@@ -20,8 +20,11 @@ class MeetingController {
     private readonly authService: AuthService,
     private readonly userService: UserService
   ) { }
+
+  
+
   addMeeting = async (req: NextApiRequest, res: NextApiResponse) => {
-    console.log("reached here")
+    console.log("reached here");
     const { error, value } = await addMeetingValidation.validate(req.body);
     if (error) return res.status(400).json({ message: error.message });
     const payload = await this.authService.verifyToken(
@@ -32,6 +35,8 @@ class MeetingController {
     }
     const user: userType = await this.userService.getUserByEmail(payload.email);
     const doctor = await this.userService.getUserById(value.doctor);
+    const reportFilePath = (req as any).file ? (req as any).file.path : null;
+
     // Sun Jan 15 2023 06:49:23 GMT+0545 (Nepal Time)'
     const meeting = await this.meetingService.addMeeting({
       clientAge: user.age,
@@ -42,6 +47,7 @@ class MeetingController {
       doctor: value.doctor,
       clientName: user.fullName,
       doctorName: doctor.fullName,
+      reportFile: reportFilePath 
     });
     if (!meeting)
       return res.status(400).json({ message: "Error adding meeting" });

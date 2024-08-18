@@ -5,4 +5,5 @@ export type userType = {
   age: number;
   price?: string;
   nmcNumber?: string;
+  speciality?: string;
 };

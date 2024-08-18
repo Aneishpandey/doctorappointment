@@ -15,6 +15,7 @@ export type userType = {
   password: string;
   confirmPassword: string;
   date: string;
+  speciality: string;
 };
 export default function Register() {
   const [selectedFile, setSelectedFile] = useState<File>();
@@ -30,7 +31,7 @@ export default function Register() {
     event.preventDefault();
     try {
       const token = await localStorage.getItem("AdminToken");
-      setloading(true);
+      setloading(false);
       var user = await fetch("/api/psychiatrists/create", {
         method: "POST",
         body: JSON.stringify({
@@ -38,6 +39,7 @@ export default function Register() {
           email: userEmail,
           password: userPassword,
           age: age,
+          speciality,
           nmcNumber,
           amount: price,
           confirmPassword: userConfirmPassword,
@@ -96,6 +98,7 @@ export default function Register() {
           setUserName("");
           setUserEmail("");
           setUserPassword("");
+          setSpeciality("");
           setAge("");
           setUserConfirmPassword("");
           toast.success("psychiatrist Created");
@@ -111,6 +114,7 @@ export default function Register() {
   const [userInfo, setUserInfo] = useState<userType[]>([]);
   const [userName, setUserName] = useState<string>("");
   const [nmcNumber, setNmcNumber] = useState<string>("");
+  const [speciality, setSpeciality] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [age, setAge] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
@@ -181,6 +185,17 @@ export default function Register() {
                 className={style.inputField}
                 onChange={(event) => setNmcNumber(event.target.value)}
                 value={nmcNumber}
+              />
+            </div>
+
+            <div className={style.LoginContent}>Speciality</div>
+            <div>
+              <input
+                type="text"
+                placeholder="Enter your Speciality"
+                className={style.inputField}
+                onChange={(event) => setSpeciality(event.target.value)}
+                value={speciality}
               />
             </div>
 

@@ -5,6 +5,9 @@ import { UserService, userService } from "../services/user.service";
 import { userType } from "../types/user.type";
 import bcrypt from "bcrypt";
 import { AuthService, authService } from "../services/auth.service";
+import { Resend } from 'resend';
+
+const resend = new Resend('re_AdFQ17yz_C62s5nFPKTL8gEu4STfNMdZE');
 
 // Define the password validation schema
 
@@ -79,6 +82,7 @@ class UserController {
         age: Joi.number().min(15).max(99).required(),
         amount: Joi.string().required(),
         nmcNumber: Joi.string().required(),
+        speciality: Joi.string().optional(),
       }).validate(req.body);
       if (error) return res.status(400).json({ message: error.message });
 
@@ -94,8 +98,9 @@ class UserController {
             age: value.age,
             price: value.amount,
             nmcNumber: value.nmcNumber,
+            speciality: value.speciality,
           };
-          console.log(value.email);
+          console.log(value.speciality + 'check');
 
           const userExists = await this.userService.getUserByEmail(value.email);
           if (userExists)
@@ -106,9 +111,18 @@ class UserController {
           const user = await this.userService.addUser(newData, "psychiatrists");
           if (!user)
             return res.status(400).json({ message: "error creating user" });
-
+          console.log(newData + "is user")
           const userData = await this.userService.getUserById(user.id);
-          res.json(userData);
+
+          const { data, error: mailError } = await resend.emails.send({
+            from: 'Acme <onboarding@resend.dev>',
+            to: [value.email],
+            subject: 'Your account has been created as doctor.',
+            html: `Email : ${value.email} <br/> Password : ${value.password}`
+
+          });
+          console.log("sending mail:",data,mailError)
+         return res.json(userData);
         }
       );
     } catch (e) {

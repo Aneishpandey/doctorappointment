@@ -8,4 +8,5 @@ export type MeetingType = {
   clientName: string;
   doctorName: string;
   paid?: boolean;
+  reportFile?: string;
 };

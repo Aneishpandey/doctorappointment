@@ -21,6 +21,7 @@ export default function Psychiatrists() {
       price: string;
       role: string;
       nmcNumber: string;
+      speciality: string;
       __v: number;
       _id: string;
     }[]
@@ -77,6 +78,8 @@ export default function Psychiatrists() {
                 {user.price} <br />
                 <b>NMC Number : </b>
                 {user.nmcNumber} <br />
+                <b>Speciality : </b>
+                {user.speciality} <br />
                 <Link
                   className={style.button + " " + style.addPsychiatrist}
                   style={{

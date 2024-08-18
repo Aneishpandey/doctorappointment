@@ -20,6 +20,7 @@ export default function Dashboard() {
       price: string;
       role: string;
       nmcNumber: string;
+      speciality: string;
       __v: number;
       _id: string;
     }[]
@@ -86,6 +87,8 @@ export default function Dashboard() {
                 {user.price} <br />
                 <b>NMC Number : </b>
                 {user.nmcNumber} <br />
+                <b>Speciality : </b>
+                {user.speciality} <br />
                 <button
                   style={{
                     display: "block",
